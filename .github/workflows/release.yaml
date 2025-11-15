@@ -1,6 +1,6 @@
 name: "Release Feature"
 # This repository contains a single feature: jenkins-plugin-dev
-# Published to: ghcr.io/sghill/jenkins-plugin-dev:1
+# Published to: ghcr.io/sghill/jenkins-plugin-dev:1 (using custom namespace)
 
 on:
   workflow_dispatch:
@@ -28,5 +28,6 @@ jobs:
           publish-features: "true"
           base-path-to-features: "./src"
           generate-docs: "false"
+          features-namespace: "sghill"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
