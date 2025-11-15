@@ -8,7 +8,7 @@ echo "Activating feature 'jenkins-plugin-dev'"
 
 # Parse options from environment variables (auto-capitalized and sanitized by devcontainer spec)
 REPOSITORY_URL="${REPOSITORYURL:-https://repo.jenkins-ci.org/public/}"
-ENABLE_INCREMENTAL="${ENABLEINCREMENTALBUILD:-true}"
+ENABLE_INCREMENTAL="${ENABLEINCREMENTALBUILD:-false}"
 MAVEN_VERSION="${MAVENVERSION:-latest}"
 MIRROR_ID="${MIRRORID:-repo.jenkins-ci.org}"
 ADDITIONAL_PROFILES="${ADDITIONALPROFILES:-}"
