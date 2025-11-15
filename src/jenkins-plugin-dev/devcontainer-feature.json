@@ -1,0 +1,50 @@
+{
+  "id": "jenkins-plugin-dev",
+  "version": "1.0.0",
+  "name": "Jenkins Plugin Development",
+  "description": "Configures Maven for Jenkins plugin development with proper repository settings and incremental build support",
+  "documentationURL": "https://github.com/sghill/jenkins-plugin-dev",
+  "licenseURL": "https://github.com/sghill/jenkins-plugin-dev/blob/main/LICENSE",
+  "options": {
+    "repositoryUrl": {
+      "type": "string",
+      "default": "https://repo.jenkins-ci.org/public/",
+      "description": "Jenkins Maven repository URL"
+    },
+    "enableIncrementalBuild": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable Jenkins incrementals repository for testing unreleased versions"
+    },
+    "mavenVersion": {
+      "type": "string",
+      "enum": ["3.8", "3.9", "latest"],
+      "default": "latest",
+      "description": "Maven version to ensure is installed (if not already present)"
+    },
+    "additionalProfiles": {
+      "type": "string",
+      "default": "",
+      "description": "Comma-separated list of additional Maven profiles to activate by default"
+    },
+    "mirrorId": {
+      "type": "string",
+      "default": "repo.jenkins-ci.org",
+      "description": "Maven mirror ID for Jenkins repository"
+    },
+    "installLocation": {
+      "type": "string",
+      "enum": ["user", "system", "both"],
+      "default": "user",
+      "description": "Where to install settings.xml: user (~/.m2), system (/etc/maven), or both"
+    },
+    "enableOfflineMode": {
+      "type": "boolean",
+      "default": false,
+      "description": "Configure Maven for offline mode (useful for air-gapped environments)"
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/java"
+  ]
+}

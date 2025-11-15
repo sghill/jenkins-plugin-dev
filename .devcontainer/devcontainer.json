@@ -1,0 +1,4 @@
+{
+	"name": "Jenkins Plugin Development Feature",
+	"image": "mcr.microsoft.com/devcontainers/universal:4-noble"
+}

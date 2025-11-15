@@ -1,0 +1,70 @@
+name: "CI - Test Feature"
+# Tests the jenkins-plugin-dev feature
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        features:
+          - jenkins-plugin-dev
+        baseImage:
+          - mcr.microsoft.com/devcontainers/java:17
+          - mcr.microsoft.com/devcontainers/java:21
+          - mcr.microsoft.com/devcontainers/base:ubuntu
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install devcontainer CLI
+        run: npm install -g @devcontainers/cli
+
+      - name: Test feature - ${{ matrix.features }} against ${{ matrix.baseImage }}
+        run: |
+          devcontainer features test \
+            --features ${{ matrix.features }} \
+            --base-image ${{ matrix.baseImage }} \
+            .
+
+  test-scenarios:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        features:
+          - jenkins-plugin-dev
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install devcontainer CLI
+        run: npm install -g @devcontainers/cli
+
+      - name: Test scenarios for ${{ matrix.features }}
+        run: |
+          devcontainer features test \
+            --features ${{ matrix.features }} \
+            --skip-scenarios false \
+            .
+
+  test-global:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install devcontainer CLI
+        run: npm install -g @devcontainers/cli
+
+      - name: Run global tests
+        run: devcontainer features test .

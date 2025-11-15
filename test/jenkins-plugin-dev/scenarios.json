@@ -1,0 +1,87 @@
+{
+  "default": {
+    "image": "mcr.microsoft.com/devcontainers/java:17",
+    "features": {
+      "jenkins-plugin-dev": {}
+    }
+  },
+  "custom_repository": {
+    "image": "mcr.microsoft.com/devcontainers/java:17",
+    "features": {
+      "jenkins-plugin-dev": {
+        "repositoryUrl": "https://custom.jenkins.repo/maven",
+        "mirrorId": "custom-jenkins"
+      }
+    }
+  },
+  "with_incremental": {
+    "image": "mcr.microsoft.com/devcontainers/java:17",
+    "features": {
+      "jenkins-plugin-dev": {
+        "enableIncrementalBuild": true
+      }
+    }
+  },
+  "with_additional_profiles": {
+    "image": "mcr.microsoft.com/devcontainers/java:17",
+    "features": {
+      "jenkins-plugin-dev": {
+        "additionalProfiles": "release,sign-artifacts"
+      }
+    }
+  },
+  "system_install": {
+    "image": "mcr.microsoft.com/devcontainers/java:17",
+    "features": {
+      "jenkins-plugin-dev": {
+        "installLocation": "system"
+      }
+    }
+  },
+  "both_install": {
+    "image": "mcr.microsoft.com/devcontainers/java:17",
+    "features": {
+      "jenkins-plugin-dev": {
+        "installLocation": "both"
+      }
+    }
+  },
+  "offline_mode": {
+    "image": "mcr.microsoft.com/devcontainers/java:17",
+    "features": {
+      "jenkins-plugin-dev": {
+        "enableOfflineMode": true
+      }
+    }
+  },
+  "maven_3_8": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "features": {
+      "jenkins-plugin-dev": {
+        "mavenVersion": "3.8"
+      }
+    }
+  },
+  "maven_3_9": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "features": {
+      "jenkins-plugin-dev": {
+        "mavenVersion": "3.9"
+      }
+    }
+  },
+  "full_custom": {
+    "image": "mcr.microsoft.com/devcontainers/java:21",
+    "features": {
+      "jenkins-plugin-dev": {
+        "repositoryUrl": "https://repo.jenkins-ci.org/public/",
+        "enableIncrementalBuild": true,
+        "mavenVersion": "latest",
+        "additionalProfiles": "development,fast-build",
+        "mirrorId": "jenkins-ci",
+        "installLocation": "both",
+        "enableOfflineMode": false
+      }
+    }
+  }
+}

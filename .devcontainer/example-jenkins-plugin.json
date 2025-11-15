@@ -1,0 +1,20 @@
+{
+  "name": "Jenkins Plugin Development Example",
+  "image": "mcr.microsoft.com/devcontainers/java:17",
+  "features": {
+    "./src/jenkins-plugin-dev": {
+      "enableIncrementalBuild": true,
+      "mavenVersion": "latest"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-maven",
+        "redhat.vscode-xml"
+      ]
+    }
+  },
+  "postCreateCommand": "mvn --version && cat ~/.m2/settings.xml"
+}
