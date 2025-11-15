@@ -1,6 +1,6 @@
 {
   "id": "jenkins-plugin-dev",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "Jenkins Plugin Development",
   "description": "Configures Maven for Jenkins plugin development with proper repository settings and incremental build support",
   "documentationURL": "https://github.com/sghill/jenkins-plugin-dev",
