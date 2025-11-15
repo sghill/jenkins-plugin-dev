@@ -23,6 +23,37 @@ echo "  Mirror ID: ${MIRROR_ID}"
 echo "  Install Location: ${INSTALL_LOCATION}"
 echo "  Offline Mode: ${ENABLE_OFFLINE}"
 
+# Function to check if Java is installed
+check_java() {
+    if command -v java &> /dev/null; then
+        echo "Java is already installed: $(java -version 2>&1 | head -n 1)"
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Function to install Java if needed
+install_java() {
+    echo "Java not found. Installing OpenJDK 17..."
+    
+    # Ensure apt is available
+    if ! command -v apt-get &> /dev/null; then
+        echo "Error: apt-get not available. Cannot install Java automatically."
+        echo "Please install Java manually or use a base image with Java pre-installed."
+        exit 1
+    fi
+    
+    apt-get update -y
+    apt-get install -y openjdk-17-jdk-headless
+    
+    # Set JAVA_HOME
+    export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+    echo "export JAVA_HOME=${JAVA_HOME}" >> /etc/profile.d/java.sh
+    
+    echo "Java installed successfully"
+}
+
 # Function to check if Maven is installed
 check_maven() {
     if command -v mvn &> /dev/null; then
@@ -211,6 +242,13 @@ install_settings_xml() {
 }
 
 # Main installation logic
+
+# Check and install Java if needed (Maven requires Java)
+if ! check_java; then
+    install_java
+else
+    echo "Java is already available"
+fi
 
 # Check and install Maven if needed
 if ! check_maven; then
