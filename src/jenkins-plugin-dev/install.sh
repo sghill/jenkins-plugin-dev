@@ -225,6 +225,7 @@ EOF
 # Function to install settings.xml to a specific location
 install_settings_xml() {
     local target_dir="$1"
+    local target_user="$2"  # Optional: user to own the files
     local settings_file="${target_dir}/settings.xml"
     
     echo "Installing settings.xml to ${settings_file}"
@@ -237,6 +238,14 @@ install_settings_xml() {
     
     # Set appropriate permissions
     chmod 644 "${settings_file}"
+    
+    # Set ownership if a user was specified and we're running as root
+    if [ -n "${target_user}" ] && [ "$(id -u)" -eq 0 ]; then
+        # Get the user's primary group
+        local user_group=$(id -gn "${target_user}" 2>/dev/null || echo "${target_user}")
+        chown -R "${target_user}:${user_group}" "${target_dir}"
+        echo "✓ Set ownership of ${target_dir} to ${target_user}:${user_group}"
+    fi
     
     echo "✓ Settings.xml installed successfully at ${settings_file}"
 }
@@ -264,10 +273,11 @@ case "${INSTALL_LOCATION}" in
         # Install to user's home directory
         if [ -n "${_REMOTE_USER}" ]; then
             USER_HOME=$(getent passwd "${_REMOTE_USER}" | cut -d: -f6)
+            install_settings_xml "${USER_HOME}/.m2" "${_REMOTE_USER}"
         else
             USER_HOME="${HOME}"
+            install_settings_xml "${USER_HOME}/.m2"
         fi
-        install_settings_xml "${USER_HOME}/.m2"
         ;;
     "system")
         # Install to system-wide location
@@ -277,10 +287,11 @@ case "${INSTALL_LOCATION}" in
         # Install to both locations
         if [ -n "${_REMOTE_USER}" ]; then
             USER_HOME=$(getent passwd "${_REMOTE_USER}" | cut -d: -f6)
+            install_settings_xml "${USER_HOME}/.m2" "${_REMOTE_USER}"
         else
             USER_HOME="${HOME}"
+            install_settings_xml "${USER_HOME}/.m2"
         fi
-        install_settings_xml "${USER_HOME}/.m2"
         install_settings_xml "/etc/maven"
         ;;
     *)
@@ -292,7 +303,7 @@ esac
 # Also install for root user if we're not root and user location is selected
 if [ "${INSTALL_LOCATION}" = "user" ] && [ "$(id -u)" -ne 0 ] && [ -d "/root" ]; then
     echo "Also installing settings.xml for root user..."
-    install_settings_xml "/root/.m2"
+    install_settings_xml "/root/.m2" "root"
 fi
 
 echo ""
