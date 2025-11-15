@@ -237,6 +237,10 @@ install_settings_xml() {
     
     # Set appropriate permissions
     chmod 644 "${settings_file}"
+
+    if [ -n "${_REMOTE_USER}" ] && [[ "${target_dir}" == */.m2 ]]; then
+        chown -R "${_REMOTE_USER}" "${target_dir}"
+    fi
     
     echo "✓ Settings.xml installed successfully at ${settings_file}"
 }
